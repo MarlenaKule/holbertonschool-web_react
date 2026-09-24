@@ -18,7 +18,7 @@ const App = () => {
       </div>
 
       <div className="App-footer">
-        <p>Copywrite {date.getFullYear()} - School dashboard</p>
+        <p>Copywrite {date.getFullYear()} - holberton School </p>
       </div>
     </>
   )
