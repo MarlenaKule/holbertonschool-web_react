@@ -17,9 +17,9 @@ const App = () => {
         <p>Login to access the full dashboard</p>
       </div>
 
-      <footer className="App-footer">
-        <p>Copyright {date.getFullYear()} - holberton School</p>
-      </footer>
+      <div className="App-footer">
+        <p>Copyright {date.getFullYear()} - Holberton School</p>
+      </div>
     </>
   )
 }
