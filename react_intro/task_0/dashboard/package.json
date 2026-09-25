@@ -1,6 +1,6 @@
 {
   "name": "dashboard",
-  "private": true,7.24
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
