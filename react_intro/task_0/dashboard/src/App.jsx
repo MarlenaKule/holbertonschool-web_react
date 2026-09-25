@@ -3,13 +3,13 @@ import logo from './assets/holberton-logo.jpg';
 import './App.css';
 
 const App = () => {
-  const date = new Date()
+  const date = new Date();
 
   return (
     
     <>
     <div className="App-header">
-        <img src={logo} alt="Holberton Logo" />
+        <img src={logo} alt="holberton logo" />
         <h1 style={{ color: '#E1003C' }}>School dashboard</h1>
       </div>
       
