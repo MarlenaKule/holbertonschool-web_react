@@ -1,7 +1,7 @@
 import "./App.css";
-import holbertLogo from "./assets/holberton-logo.jpg";
-import Notifications from "./Notifications.jsx";
-import { getCurrentYear, getFooterCopy } from "./utils";
+import holbertLogo from "../assets/holberton-logo.jpg";
+import Notifications from "../Notifications/Notifications.jsx";
+import { getCurrentYear, getFooterCopy } from "../utils/utils.js";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <label for="password">Password:</label>
         <input type="password" id="password"></input>
 
-        <button type='submit'>Ok</button>
+        <button type="submit">Ok</button>
       </div>
       <div className="App-footer">
         <p>
