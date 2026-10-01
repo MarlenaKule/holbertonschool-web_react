@@ -1,17 +1,17 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import { describe, test, expect } from 'vitest';
 import Header from './Header';
 
 describe('Header component', () => {
-    it('renders the Holberton logo', () => {
-        const wrapper = shallow(<Header />);
-        const img = wrapper.find('img');
-        expect(img.prop('alt')).toBe('Holberton logo');
-    });
+  test('contains the Holberton logo', () => {
+    render(<Header />);
+    expect(screen.getByAltText(/holberton logo/i)).toBeInTheDocument();
+  });
 
-    it('renders the heading text', () => {
-        const wrapper = shallow(<Header />);
-        const heading = wrapper.find('h1');
-        expect(heading.text()).toBe('School dashboard');
-    });
+  test('contains an h1 with the correct text', () => {
+    render(<Header />);
+    expect(
+      screen.getByRole('heading', { level: 1, name: /school dashboard/i })
+    ).toBeInTheDocument();
+  });
 });
