@@ -1,0 +1,56 @@
+[1mdiff --git a/react_props/task_1/dashboard/package.json b/react_props/task_1/dashboard/package.json[m
+[1mindex 636de0c..ea9e5e0 100644[m
+[1m--- a/react_props/task_1/dashboard/package.json[m
+[1m+++ b/react_props/task_1/dashboard/package.json[m
+[36m@@ -1,20 +1,51 @@[m
+[32m+[m
+ {[m
+   "name": "dashboard",[m
+   "version": "1.0.0",[m
+   "description": "",[m
+   "main": "index.js",[m
+   "scripts": {[m
+[32m+[m[41m    [m
+     "build": "webpack --mode production --config config/webpack.config.js",[m
+     "start": "webpack serve --open --mode development --config config/webpack.config.js",[m
+     "test": "jest",[m
+     "test-watch": "jest --watch"[m
+   },[m
+[32m+[m
+[32m+[m[32m{[m
+[32m+[m[32m  "name": "dashboard",[m
+[32m+[m[32m  "version": "1.0.0",[m
+[32m+[m[32m  "description": "",[m
+[32m+[m[32m  "main": "index.js",[m
+[32m+[m[32m  "scripts": {[m
+[32m+[m[32m    "build": "webpack --mode production --config config/webpack.config.js",[m
+[32m+[m[32m    "start": "webpack serve --open --mode development --config config/webpack.config.js",[m
+[32m+[m[32m    "test": "jest",[m
+[32m+[m[32m    "test-watch": "jest --watch"[m
+[32m+[m[32m  },[m
+[32m+[m[32m  "jest": {[m
+[32m+[m[32m    "testEnvironment": "jsdom",[m
+[32m+[m[32m    "moduleNameMapper": {[m
+[32m+[m[32m      "\\.(jpg|jpeg|png|gif|svg|css)$": "<rootDir>/__mocks__/fileMock.js"[m
+[32m+[m[32m    },[m
+[32m+[m[32m    "setupFilesAfterEnv": ["<rootDir>/setupTests.js"][m
+[32m+[m[32m  },[m
+[32m+[m[32m  "author": "",[m
+[32m+[m[32m  "license": "ISC",[m
+[32m+[m[32m  "devDependencies": {[m
+[32m+[m[32m    ...[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[32m+[m
+   "author": "",[m
+   "license": "ISC",[m
+   "devDependencies": {[m
+     "@babel/core": "^7.21.8",[m
+     "@babel/preset-env": "^7.21.5",[m
+     "@babel/preset-react": "^7.18.6",[m
+[32m+[m[32m    "@testing-library/dom": "^10.4.2",[m
+[32m+[m[32m    "@testing-library/jest-dom": "^7.0.1",[m
+[32m+[m[32m    "@testing-library/react": "^16.3.3",[m
+     "babel-loader": "^9.1.2",[m
+     "webpack": "^5.82.0",[m
+     "webpack-cli": "^5.1.0",[m
