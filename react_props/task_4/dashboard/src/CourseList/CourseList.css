@@ -1,0 +1,17 @@
+table, thead, tbody {
+    border: 1px solid #ddd;
+}
+
+th {
+    border-bottom: 3px solid #eee;
+    padding: 5px;
+}
+
+tr:last-of-type {
+    text-align: left;
+}
+
+table {
+    width: 80%;
+    margin: 50px auto;
+}
