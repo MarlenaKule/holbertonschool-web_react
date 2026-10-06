@@ -1,16 +1,21 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Header from './Header';
 
-describe('Header component', () => {
-  test('contains the Holberton logo', () => {
+describe('Header Component', () => {
+  it('renders without crashing', () => {
     render(<Header />);
-    expect(screen.getByAltText(/holberton logo/i)).toBeInTheDocument();
   });
 
-  test('contains an h1 with the correct text', () => {
+  it('contains the Holberton logo', () => {
     render(<Header />);
-    expect(
-      screen.getByRole('heading', { level: 1, name: /school dashboard/i })
-    ).toBeInTheDocument();
+    const logo = screen.getByAltText(/holberton/i);
+    expect(logo).toBeInTheDocument();
+  });
+
+  it('contains the h1 element with correct text', () => {
+    render(<Header />);
+    const heading = screen.getByRole('heading', { level: 1 });
+    expect(heading).toHaveTextContent(/school dashboard/i);
   });
 });

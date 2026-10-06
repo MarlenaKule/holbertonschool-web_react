@@ -1,8 +1,5 @@
-.Login{
-    margin: 50px;
-}
-  
-.Login input {
-    margin-left: 20px;
-    margin-right: 20px;
+.App-body {
+  height: 450px;
+  border-top: 2px solid #e1003c;
+  border-bottom: 2px solid #e1003c;
 }

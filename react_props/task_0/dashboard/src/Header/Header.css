@@ -1,14 +1,8 @@
-.Header {
-    display: flex;
-    border-bottom: 5px #E0354B solid;
+.App-header {
+  overflow: hidden;
 }
 
-.Header h1 {
-    color: #E0354B;
-    align-self: center;
-    font-weight: bold;
-}
-
-.Header img {
-    width: 300px;
+.App-header > img,
+.App-header > h1 {
+  float: left;
 }

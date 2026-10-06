@@ -1,37 +1,36 @@
-import React from 'react';
-import CourseListRow from './CourseListRow';
-import './CourseList.css';
-import PropTypes from 'prop-types';
-import CourseShape from './CourseListShape';
+import "./CourseList.css";
+import CourseListRow from "./CourseListRow.jsx";
 
-function CourseList({ listCourses }) {
+function CourseList({ courses }) {
+  const safeCourses = courses ?? [];
+
+  if (safeCourses.length === 0) {
     return (
-        <table id='CourseList'>
-            <thead>
-                <CourseListRow isHeader={true} textFirstCell="Available courses" />
-                <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
-            </thead>
-            <tbody>
-                {listCourses.length === 0 && (
-                    <CourseListRow isHeader={false} textFirstCell="No course available yet" />
-                )}
-                {listCourses.map((course) => (
-                    <CourseListRow key={course.id}
-                        isHeader={false}
-                        textFirstCell={course.name}
-                        textSecondCell={course.credit} />
-                ))}
-            </tbody>
-        </table>
+      <table id="CourseList">
+        <tbody>
+          <CourseListRow isHeader={true} textFirstCell="No course available yet" />
+        </tbody>
+      </table>
     );
-}
+  }
 
-CourseList.propTypes = {
-    listCourses: PropTypes.arrayOf(CourseShape)
-}
-
-CourseList.defaultProps = {
-    listCourses: []
+  return (
+    <table id="CourseList">
+      <thead>
+        <CourseListRow isHeader={true} textFirstCell="Available courses" />
+        <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
+      </thead>
+      <tbody>
+        {safeCourses.map((course) => (
+          <CourseListRow
+            key={course.id}
+            textFirstCell={course.name}
+            textSecondCell={course.credit}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 export default CourseList;

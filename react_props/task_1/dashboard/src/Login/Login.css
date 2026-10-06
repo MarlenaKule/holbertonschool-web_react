@@ -1,8 +1,5 @@
 .App-body {
-    margin: 50px;
-}
-  
-.App-body input {
-    margin-left: 20px;
-    margin-right: 20px;
+  height: 450px;
+  border-top: 2px solid #e1003c;
+  border-bottom: 2px solid #e1003c;
 }

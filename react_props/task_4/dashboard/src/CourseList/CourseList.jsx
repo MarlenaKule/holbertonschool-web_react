@@ -1,21 +1,36 @@
-import React from 'react';
-import CourseListRow from './CourseListRow';
-import './CourseList.css';
+import "./CourseList.css";
+import CourseListRow from "./CourseListRow.jsx";
 
-function CourseList() {
+function CourseList({ courses }) {
+  const safeCourses = courses ?? [];
+
+  if (safeCourses.length === 0) {
     return (
-        <table id='CourseList'>
-            <thead>
-                <CourseListRow isHeader={true} textFirstCell="Available courses" />
-                <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
-            </thead>
-            <tbody>
-                <CourseListRow isHeader={false} textFirstCell="ES6" textSecondCell="60" />
-                <CourseListRow isHeader={false} textFirstCell="Webpack" textSecondCell="20" />
-                <CourseListRow isHeader={false} textFirstCell="React" textSecondCell="40"/>
-            </tbody>
-        </table>
+      <table id="CourseList">
+        <tbody>
+          <CourseListRow isHeader={true} textFirstCell="No course available yet" />
+        </tbody>
+      </table>
     );
+  }
+
+  return (
+    <table id="CourseList">
+      <thead>
+        <CourseListRow isHeader={true} textFirstCell="Available courses" />
+        <CourseListRow isHeader={true} textFirstCell="Course name" textSecondCell="Credit" />
+      </thead>
+      <tbody>
+        {safeCourses.map((course) => (
+          <CourseListRow
+            key={course.id}
+            textFirstCell={course.name}
+            textSecondCell={course.credit}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 export default CourseList;

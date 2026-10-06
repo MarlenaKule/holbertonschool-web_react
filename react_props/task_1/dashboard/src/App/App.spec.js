@@ -1,44 +1,19 @@
-import { shallow } from 'enzyme';
-import App from './App';
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import Notification from '../Notifications/Notification';
-import Login from '../Login/Login';
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
+test("renders App form correctly", () => {
+  render(<App />);
 
-describe('Testing <App /> component', () => {
-    describe('App renders without crashing', () => {
-        it ('should render App withour crashing', () => {
-            const wrapper = shallow(<App />);
-            expect(wrapper.exists()).toEqual(true);
-        });
-    });
-    describe('Test Notification component', () => {
-        it ('It should contain the Notifications component', () => {
-            const wrapper = shallow(<App />);
-            wrapper.update()
-            expect(wrapper.exists(Notification)).toEqual(true);
-        });
-    });
-    describe('Test Header component', () => {
-        it ('It should contain the Header component', () => {
-            const wrapper = shallow(<App />);
-            wrapper.update()
-            expect(wrapper.exists(Header)).toEqual(true);
-        });
-    });
-    describe('Test Login component', () => {
-        it ('It should contain the Login component', () => {
-            const wrapper = shallow(<App />);
-            wrapper.update()
-            expect(wrapper.exists(Login)).toEqual(true);
-        });
-    });
-    describe('Test Footer component', () => {
-        it ('It should contain the Footer component', () => {
-            const wrapper = shallow(<App />);
-            wrapper.update()
-            expect(wrapper.exists(Footer)).toEqual(true);
-        });
-    });
-})
+  const emailInput = screen.getByLabelText(/email/i);
+  const passwordInput = screen.getByLabelText(/password/i);
+  expect(emailInput).toBeInTheDocument();
+  expect(passwordInput).toBeInTheDocument();
+
+  const emailLabel = screen.getByText(/email/i);
+  const passwordLabel = screen.getByText(/password/i);
+  expect(emailLabel).toBeInTheDocument();
+  expect(passwordLabel).toBeInTheDocument();
+
+  const button = screen.getByRole("button", { name: /^ok$/i });
+  expect(button).toBeInTheDocument();
+});
