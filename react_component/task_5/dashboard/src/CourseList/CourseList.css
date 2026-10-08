@@ -1,17 +1,19 @@
-table, thead, tbody {
-    border: 1px solid #ddd;
+.table-cell {
+    border-bottom: 1px solid gray;
+    border-right: 1px solid gray;
 }
 
-th {
-    border-bottom: 3px solid #eee;
-    padding: 5px;
+.course-list {
+    margin-top: 20px;
+    width: 100%;
+    border-top: 1px solid gray;
+    border-left: 1px solid gray;
 }
 
-tr:last-of-type {
-    text-align: left;
+.courses-body {
+    height: 65vh;
 }
 
-table {
-    width: 80%;
-    margin: 50px auto;
+.no-courses {
+    margin-bottom: 1px solid gray;
 }

@@ -1,17 +1,16 @@
-table, thead, tbody {
-    border: 1px solid #ddd;
+#CourseList {
+  width: 90%;
+  margin: 40px auto 0;
+  border-collapse: collapse;
 }
 
-th {
-    border-bottom: 3px solid #eee;
-    padding: 5px;
+#CourseList th,
+#CourseList td {
+  border: 1px solid gray;
+  padding: 4px 8px;
+  text-align: left;
 }
 
-tr:last-of-type {
-    text-align: left;
-}
-
-table {
-    width: 80%;
-    margin: 50px auto;
+#CourseList thead tr:first-child th {
+  text-align: center;
 }

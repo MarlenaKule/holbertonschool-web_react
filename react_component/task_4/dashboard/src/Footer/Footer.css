@@ -1,9 +1,7 @@
 .App-footer {
-    width: 100%;
     display: flex;
     justify-content: center;
-    position: fixed;
-    bottom: 0;
-    border-top: 5px #E0354B solid;
-    font-style: italic;
+    padding: 0.5rem;
+    border-top-style: solid;
+    border-color: #e1003c;
 }

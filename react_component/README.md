@@ -1,1 +1,1 @@
-# React component
+# holbertonschool-web_react
