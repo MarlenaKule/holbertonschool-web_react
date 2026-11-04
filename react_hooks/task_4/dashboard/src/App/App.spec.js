@@ -1,47 +1,94 @@
 // App/App.spec.js
-import { render, screen, fireEvent } from "@testing-library/react";
+import React from "react";
+import { shallow, mount } from "enzyme";
 import App from "./App";
+import Notifications from "../Notifications/Notifications";
+import Header from "../Header/Header";
+import Login from "../Login/Login";
+import Footer from "../Footer/Footer";
+import CourseList from "../CourseList/CourseList";
+import NewContext from "../Context/context";
 
-test("renders Header component", () => {
-  render(<App />);
-  expect(
-    screen.getByRole("heading", { level: 1, name: /school dashboard/i })
-  ).toBeInTheDocument();
-});
-
-test("renders Login form by default", () => {
-  render(<App />);
-  expect(screen.getByText(/login to access the full dashboard/i)).toBeInTheDocument();
-});
-
-test("logging in renders CourseList and shows logout/Contact us", () => {
-  render(<App />);
-  fireEvent.change(document.getElementById("email"), {
-    target: { value: "test@example.com" },
+describe("<App />", () => {
+  it("renders without crashing", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.exists()).toBe(true);
   });
-  fireEvent.change(document.getElementById("password"), {
-    target: { value: "longenough" },
+
+  it("contains Notifications, Header, Footer", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(Notifications).exists()).toBe(true);
+    expect(wrapper.find(Header).exists()).toBe(true);
+    expect(wrapper.find(Footer).exists()).toBe(true);
   });
-  fireEvent.click(screen.getByDisplayValue(/ok/i));
 
-  expect(document.getElementById("CourseList")).toBeInTheDocument();
-  expect(screen.getByText(/logout/i)).toBeInTheDocument();
-  expect(screen.getByText(/contact us/i)).toBeInTheDocument();
-});
+  it("renders Login by default (user not logged in)", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(Login).exists()).toBe(true);
+    expect(wrapper.find(CourseList).exists()).toBe(false);
+  });
 
-test("clicking a notification item removes it and logs the expected message", () => {
-  const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
-  render(<App />);
+  it("displayDrawer is true by default", () => {
+    const wrapper = shallow(<App />);
+    expect(wrapper.find(Notifications).prop("displayDrawer")).toBe(true);
+  });
 
-  fireEvent.click(screen.getByText(/your notifications/i));
-  expect(screen.getByText(/new course available/i)).toBeInTheDocument();
+  it("handleDisplayDrawer sets displayDrawer to true", () => {
+    const wrapper = shallow(<App />);
+    // First hide
+    wrapper.find(Notifications).prop("handleHideDrawer")();
+    wrapper.update();
+    expect(wrapper.find(Notifications).prop("displayDrawer")).toBe(false);
 
-  fireEvent.click(screen.getByText(/new course available/i));
+    // Then show
+    wrapper.find(Notifications).prop("handleDisplayDrawer")();
+    wrapper.update();
+    expect(wrapper.find(Notifications).prop("displayDrawer")).toBe(true);
+  });
 
-  expect(consoleSpy).toHaveBeenCalledWith(
-    expect.stringMatching(/notification 1 has been marked as read/i)
-  );
-  expect(screen.queryByText(/new course available/i)).not.toBeInTheDocument();
+  it("handleHideDrawer sets displayDrawer to false", () => {
+    const wrapper = shallow(<App />);
+    wrapper.find(Notifications).prop("handleHideDrawer")();
+    wrapper.update();
+    expect(wrapper.find(Notifications).prop("displayDrawer")).toBe(false);
+  });
 
-  consoleSpy.mockRestore();
+  it("logIn updates user state (email, password, isLoggedIn)", () => {
+    const wrapper = shallow(<App />);
+    wrapper.find(Login).prop("logIn")("test@test.com", "password123");
+    wrapper.update();
+
+    // After login, CourseList should render, Login should not
+    expect(wrapper.find(CourseList).exists()).toBe(true);
+    expect(wrapper.find(Login).exists()).toBe(false);
+  });
+
+  it("logOut resets user state (isLoggedIn false, email/password cleared)", () => {
+    const wrapper = shallow(<App />);
+    // Log in first
+    wrapper.find(Login).prop("logIn")("test@test.com", "password123");
+    wrapper.update();
+    expect(wrapper.find(CourseList).exists()).toBe(true);
+
+    // Then log out — access logOut from context
+    const contextValue = wrapper.find(NewContext.Provider).prop("value");
+    contextValue.logOut();
+    wrapper.update();
+
+    expect(wrapper.find(Login).exists()).toBe(true);
+    expect(wrapper.find(CourseList).exists()).toBe(false);
+  });
+
+  it("markNotificationAsRead removes a notification by id", () => {
+    const wrapper = shallow(<App />);
+    const before = wrapper.find(Notifications).prop("notifications");
+    const idToRemove = before[0].id;
+
+    wrapper.find(Notifications).prop("markNotificationAsRead")(idToRemove);
+    wrapper.update();
+
+    const after = wrapper.find(Notifications).prop("notifications");
+    expect(after.length).toBe(before.length - 1);
+    expect(after.find((n) => n.id === idToRemove)).toBeUndefined();
+  });
 });

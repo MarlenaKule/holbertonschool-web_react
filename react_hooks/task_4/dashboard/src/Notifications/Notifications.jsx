@@ -71,20 +71,13 @@ Notifications.propTypes = {
   markNotificationAsRead: PropTypes.func,
 };
 
-// Funksioni i personalizuar i krahasimit për React.memo
 const arePropsEqual = (prevProps, nextProps) => {
-  // 1. Kontrollo displayDrawer
-  if (prevProps.displayDrawer !== nextProps.displayDrawer) {
-    return false;
-  }
+  if (prevProps.displayDrawer !== nextProps.displayDrawer) return false;
 
-  // 2. Kontrollo listën e njoftimeve (length + elementet)
   const prevNotifs = prevProps.notifications || [];
   const nextNotifs = nextProps.notifications || [];
 
-  if (prevNotifs.length !== nextNotifs.length) {
-    return false;
-  }
+  if (prevNotifs.length !== nextNotifs.length) return false;
 
   const notificationsEqual = prevNotifs.every((prevNotif, index) => {
     const nextNotif = nextNotifs[index];
@@ -96,11 +89,8 @@ const arePropsEqual = (prevProps, nextProps) => {
     );
   });
 
-  if (!notificationsEqual) {
-    return false;
-  }
+  if (!notificationsEqual) return false;
 
-  // 3. Kontrollo funksionet (referencat)
   if (
     prevProps.handleDisplayDrawer !== nextProps.handleDisplayDrawer ||
     prevProps.handleHideDrawer !== nextProps.handleHideDrawer ||
@@ -109,7 +99,6 @@ const arePropsEqual = (prevProps, nextProps) => {
     return false;
   }
 
-  // Të gjitha props janë të barabarta → mos re-render
   return true;
 };
 
