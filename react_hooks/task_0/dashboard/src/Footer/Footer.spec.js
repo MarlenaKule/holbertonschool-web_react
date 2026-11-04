@@ -1,7 +1,7 @@
 // Footer/Footer.spec.js
 import { render, screen } from "@testing-library/react";
 import Footer from "./Footer";
-import newContext from "../Context/context";
+import NewContext from "../Context/context"
 
 test("renders copyright text with current year and Holberton School", () => {
   render(<Footer />);
@@ -21,9 +21,9 @@ test("displays Contact us link when logged in", () => {
   };
 
   render(
-    <newContext.Provider value={value}>
+    <NewContext.Provider value={value}>
       <Footer />
-    </newContext.Provider>
+    </NewContext.Provider>
   );
 
   expect(screen.getByText(/contact us/i)).toBeInTheDocument();

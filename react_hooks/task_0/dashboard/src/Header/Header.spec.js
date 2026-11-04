@@ -1,7 +1,8 @@
 // Header/Header.spec.js
 import { render, screen, fireEvent } from "@testing-library/react";
 import Header from "./Header";
-import newContext from "../Context/context";
+import NewContext from "../Context/context";
+
 
 test("renders the holberton logo", () => {
   render(<Header />);
@@ -27,9 +28,9 @@ test("renders logoutSection when context user is logged in", () => {
   };
 
   render(
-    <newContext.Provider value={value}>
+    <NewContext.Provider value={value}>
       <Header />
-    </newContext.Provider>
+    </NewContext.Provider>
   );
 
   expect(document.getElementById("logoutSection")).toBeInTheDocument();
@@ -44,9 +45,9 @@ test("clicking logout calls logOut from context", () => {
   };
 
   render(
-    <newContext.Provider value={value}>
+    <NewContext.Provider value={value}>
       <Header />
-    </newContext.Provider>
+    </NewContext.Provider>
   );
 
   const logoutLink = screen.getByText(/logout/i);

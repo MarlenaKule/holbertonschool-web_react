@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 import React from "react";
 
 const BodySection = ({ title, children }) => {

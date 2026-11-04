@@ -8,7 +8,7 @@ import Login from "../Login/Login";
 import Notifications from "../Notifications/Notifications";
 import BodySection from "../BodySection/BodySection";
 import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
-import newContext from "../Context/context";
+import NewContext from "../Context/context";
 import "./App.css";
 
 const notificationsList = [
@@ -93,7 +93,7 @@ class App extends Component {
     const { displayDrawer, user, notifications, courses } = this.state;
 
     return (
-      <newContext.Provider value={this.state}>
+      <NewContext.Provider value={this.state}>
         <div className="notifications-header">
           <Header />
           <div className="root-notifications">
@@ -122,7 +122,7 @@ class App extends Component {
         </BodySection>
 
         <Footer />
-      </newContext.Provider>
+      </NewContext.Provider>
     );
   }
 }
