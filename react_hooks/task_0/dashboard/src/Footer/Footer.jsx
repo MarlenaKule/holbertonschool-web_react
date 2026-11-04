@@ -1,10 +1,9 @@
-// Footer/Footer.jsx
 import { useContext } from "react";
 import { getCurrentYear, getFooterCopy } from "../utils/utils.js";
-import newContext from "../Context/context";
+import NewContext from "../Context/context";
 
 function Footer() {
-  const { user } = useContext(newContext);
+  const { user } = useContext(NewContext);
 
   return (
     <div className="App-footer">
