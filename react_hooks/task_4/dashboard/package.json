@@ -8,16 +8,19 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "react-scripts test"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
+    "@belzile/enzyme-adapter-react-19": "^19.0.0",
     "@eslint/js": "^9.39.1",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.3.2",
@@ -39,13 +42,10 @@
     "vite": "^7.3.1"
   },
   "jest": {
-    "testEnvironment": "jsdom",
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy",
-      "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/fileTransformer.js"
-    },
-    "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.js"
-    ]
+      "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/fileTransformer.js",
+      "setupFilesAfterEnv": ["<rootDir>/src/setupTests.js"]
+    }
   }
 }

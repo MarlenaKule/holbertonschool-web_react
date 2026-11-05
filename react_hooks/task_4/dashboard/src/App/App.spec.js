@@ -1,6 +1,16 @@
-// App/App.spec.js
+
+import { TextEncoder, TextDecoder } from "util";
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+import Enzyme from "enzyme";
+import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
+Enzyme.configure({ adapter: new Adapter() });
+
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
+// ... pjesa tjetër e import-eve të tua
+
 import App from "./App";
 import Notifications from "../Notifications/Notifications";
 import Header from "../Header/Header";

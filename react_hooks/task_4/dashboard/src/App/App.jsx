@@ -27,13 +27,15 @@ const coursesList = [
   { id: 3, name: "React", credit: "40" },
 ];
 
+const defaultUser = {
+  email: "",
+  password: "",
+  isLoggedIn: false,
+};
+
 const App = () => {
   const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-    isLoggedIn: false,
-  });
+  const [user, setUser] = useState(defaultUser);
   const [notifications, setNotifications] = useState(notificationsList);
   const [courses] = useState(coursesList);
 
@@ -60,7 +62,6 @@ const App = () => {
     );
   }, []);
 
-  // Context value must be memoized to avoid re-renders of consumers
   const contextValue = useMemo(
     () => ({
       user,
