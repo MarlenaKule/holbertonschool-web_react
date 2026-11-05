@@ -1,5 +1,5 @@
 // Notifications/Notifications.jsx
-import React, { Fragment } from "react";
+import { Fragment, memo } from "react";
 import PropTypes from "prop-types";
 import "./Notifications.css";
 import closeIcon from "../assets/close-button.png";
@@ -102,4 +102,4 @@ const arePropsEqual = (prevProps, nextProps) => {
   return true;
 };
 
-export default React.memo(Notifications, arePropsEqual);
+export default memo(Notifications, arePropsEqual);

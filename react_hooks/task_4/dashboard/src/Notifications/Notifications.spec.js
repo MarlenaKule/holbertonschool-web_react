@@ -1,7 +1,9 @@
 // Notifications/Notifications.spec.js
+import PropTypes from "prop-types";
 import '@testing-library/jest-dom';
 import { render, screen } from "@testing-library/react";
 import Notifications from "./Notifications";
+
 
 const notificationsList = [
   { id: 1, type: "default", value: "New course available" },
@@ -59,4 +61,17 @@ test("clicking a notification item calls markNotificationAsRead with its id", ()
   );
   screen.getByText(/new course available/i).click();
   expect(markNotificationAsRead).toHaveBeenCalledWith(1);
+});
+
+test("catches wrong prop data type", () => {
+  const spy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+  PropTypes.checkPropTypes(
+    Notifications.type.propTypes,
+    { displayDrawer: "yes" },
+    "prop",
+    "Notifications"
+  );
+ expect(spy).toHaveBeenCalled();
+  spy.mockRestore();
 });
