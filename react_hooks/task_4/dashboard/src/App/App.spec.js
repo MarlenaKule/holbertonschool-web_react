@@ -23,8 +23,8 @@ const respond = async (url, data) => {
 
 const renderApp = async () => {
   render(<App />);
-  await respond("/notifications.json", notificationsData);
-  await respond("/courses.json", coursesData);
+  await respond("http://localhost:5173/notifications.json", notificationsData);
+  await respond("http://localhost:5173/courses.json", coursesData);
 };
 
 const login = async (user) => {
@@ -52,7 +52,7 @@ describe("App", () => {
   test("fetches notifications when the app loads", async () => {
     await renderApp();
 
-    expect(mockAxios.get).toHaveBeenCalledWith("/notifications.json");
+    expect(mockAxios.get).toHaveBeenCalledWith("http://localhost:5173/notifications.json");
     expect(screen.getByText("New course available")).toBeInTheDocument();
     expect(screen.getByText("New resume available")).toBeInTheDocument();
     expect(screen.getAllByRole("listitem")).toHaveLength(3);
@@ -62,10 +62,10 @@ describe("App", () => {
     const user = userEvent.setup();
     await renderApp();
     await login(user);
-    await respond("/courses.json", coursesData);
+    await respond("http://localhost:5173/courses.json", coursesData);
 
     const notificationCalls = mockAxios.get.mock.calls.filter(
-      ([url]) => url === "/notifications.json"
+      ([url]) => url === "http://localhost:5173/notifications.json"
     );
     expect(notificationCalls).toHaveLength(1);
   });
@@ -74,23 +74,23 @@ describe("App", () => {
     const user = userEvent.setup();
     await renderApp();
     const callsBefore = mockAxios.get.mock.calls.filter(
-      ([url]) => url === "/courses.json"
+      ([url]) => url === "http://localhost:5173/courses.json"
     ).length;
 
     await login(user);
-    await respond("/courses.json", coursesData);
+    await respond("http://localhost:5173/courses.json", coursesData);
 
     const callsAfterLogin = mockAxios.get.mock.calls.filter(
-      ([url]) => url === "/courses.json"
+      ([url]) => url === "http://localhost:5173/courses.json"
     ).length;
     expect(callsAfterLogin).toBe(callsBefore + 1);
     expect(screen.getByText("Webpack")).toBeInTheDocument();
 
     await user.click(screen.getByText(/logout/i));
-    await respond("/courses.json", coursesData);
+    await respond("http://localhost:5173/courses.json", coursesData);
 
     const callsAfterLogout = mockAxios.get.mock.calls.filter(
-      ([url]) => url === "/courses.json"
+      ([url]) => url === "http://localhost:5173/courses.json"
     ).length;
     expect(callsAfterLogout).toBe(callsAfterLogin + 1);
   });
@@ -111,7 +111,7 @@ describe("App", () => {
     const user = userEvent.setup();
     await renderApp();
     await login(user);
-    await respond("/courses.json", coursesData);
+    await respond("http://localhost:5173/courses.json", coursesData);
 
     expect(screen.getByText(/welcome/i)).toHaveTextContent("test@example.com");
     expect(screen.getByText(/course list/i)).toBeInTheDocument();
@@ -122,10 +122,10 @@ describe("App", () => {
     const user = userEvent.setup();
     await renderApp();
     await login(user);
-    await respond("/courses.json", coursesData);
+    await respond("http://localhost:5173/courses.json", coursesData);
 
     await user.click(screen.getByText(/logout/i));
-    await respond("/courses.json", coursesData);
+    await respond("http://localhost:5173/courses.json", coursesData);
 
     expect(screen.getByText(/log in to continue/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/email address/i)).toHaveValue("");

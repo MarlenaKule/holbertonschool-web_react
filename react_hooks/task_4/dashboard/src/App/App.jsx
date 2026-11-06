@@ -31,7 +31,7 @@ function App() {
 
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get("/notifications.json");
+        const response = await axios.get("http://localhost:5173/notifications.json");
         const data = response.data.map((notification) =>
           notification.id === 3
             ? { ...notification, html: { __html: getLatestNotification() } }
@@ -58,7 +58,7 @@ function App() {
 
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("/courses.json");
+        const response = await axios.get("http://localhost:5173/courses.json");
         if (!cancelled) setCourses(response.data);
       } catch (error) {
         if (process.env.NODE_ENV === "development") {
