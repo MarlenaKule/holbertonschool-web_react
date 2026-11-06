@@ -1,135 +1,117 @@
-/* global process */
-import { useState, useCallback, useMemo, useEffect } from "react";
-import axios from "axios";
-import CourseList from "../CourseList/CourseList";
-import "../CourseList/CourseList.css";
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
-import Login from "../Login/Login";
-import Notifications from "../Notifications/Notifications";
-import BodySection from "../BodySection/BodySection";
-import BodySectionWithMarginBottom from "../BodySection/BodySectionWithMarginBottom";
-import NewContext from "../Context/context";
-import { getLatestNotification } from "../utils/utils.js";
-import "./App.css";
-
-const defaultUser = {
-  email: "",
-  password: "",
-  isLoggedIn: false,
-};
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Notifications from '../Notifications/Notifications';
+import Header from '../Header/Header';
+import Login from '../Login/Login';
+import Footer from '../Footer/Footer';
+import CourseList from '../CourseList/CourseList';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import BodySection from '../BodySection/BodySection';
+import { getLatestNotification } from '../utils/utils';
+import './App.css';
 
 function App() {
-  const [displayDrawer, setDisplayDrawer] = useState(true);
-  const [user, setUser] = useState(defaultUser);
-  const [notifications, setNotifications] = useState([]);
+  const [displayDrawer, setDisplayDrawer] = useState(false);
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  });
+  const [listNotifications, setListNotifications] = useState([]);
   const [courses, setCourses] = useState([]);
 
-  // Notifications: fetched once, when the component first renders
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchNotifications = async () => {
-      try {
-        const response = await axios.get("http://localhost:5173/notifications.json");
-        const data = response.data.map((notification) =>
-          notification.id === 3
-            ? { ...notification, html: { __html: getLatestNotification() } }
-            : notification
-        );
-        if (!cancelled) setNotifications(data);
-      } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-          console.error("Error fetching notifications:", error);
-        }
-      }
-    };
-
-    fetchNotifications();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  // Courses: fetched whenever the user state changes
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get("http://localhost:5173/courses.json");
-        if (!cancelled) setCourses(response.data);
-      } catch (error) {
-        if (process.env.NODE_ENV === "development") {
-          console.error("Error fetching courses:", error);
-        }
-      }
-    };
-
-    fetchCourses();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [user]);
-
-  const handleDisplayDrawer = useCallback(() => {
+  const handleDisplayDrawer = () => {
     setDisplayDrawer(true);
-  }, []);
+  };
 
-  const handleHideDrawer = useCallback(() => {
+  const handleHideDrawer = () => {
     setDisplayDrawer(false);
-  }, []);
+  };
 
-  const logIn = useCallback((email, password) => {
-    setUser({ email, password, isLoggedIn: true });
-  }, []);
+  const logIn = (email, password) => {
+    setUser({
+      email,
+      password,
+      isLoggedIn: true,
+    });
+  };
 
-  const logOut = useCallback(() => {
-    setUser({ email: "", password: "", isLoggedIn: false });
-  }, []);
+  const logOut = () => {
+    setUser({
+      email: '',
+      password: '',
+      isLoggedIn: false,
+    });
+  };
 
-  const markNotificationAsRead = useCallback((id) => {
-    console.log(`Notification ${id} has been marked as read`);
-    setNotifications((prevNotifications) =>
+  // Fshirja e njoftimit nga gjendja (state)
+  const markAsRead = (id) => {
+    setListNotifications((prevNotifications) =>
       prevNotifications.filter((notification) => notification.id !== id)
     );
+  };
+
+  // Fetch notifications on mount
+  useEffect(() => {
+    axios
+      .get('/notifications.json')
+      .then((response) => {
+        setListNotifications(response.data);
+      })
+      .catch((error) => {
+        if (process.env.NODE_ENV === 'development') {
+          console.error(error);
+        }
+      });
   }, []);
 
-  const contextValue = useMemo(() => ({ user, logOut }), [user, logOut]);
+  // Fetch courses when user logs in
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      axios
+        .get('/courses.json')
+        .then((response) => {
+          setCourses(response.data);
+        })
+        .catch((error) => {
+          if (process.env.NODE_ENV === 'development') {
+            console.error(error);
+          }
+        });
+    } else {
+      setCourses([]);
+    }
+  }, [user.isLoggedIn]);
 
   return (
-    <NewContext.Provider value={contextValue}>
-      <div className="notifications-header">
+    <React.Fragment>
+      <Notifications
+        listNotifications={listNotifications}
+        displayDrawer={displayDrawer}
+        handleDisplayDrawer={handleDisplayDrawer}
+        handleHideDrawer={handleHideDrawer}
+        markAsRead={markAsRead}
+      />
+      <div className="App">
         <Header />
-        <div className="root-notifications">
-          <Notifications
-            notifications={notifications}
-            displayDrawer={displayDrawer}
-            handleDisplayDrawer={handleDisplayDrawer}
-            handleHideDrawer={handleHideDrawer}
-            markNotificationAsRead={markNotificationAsRead}
-          />
-        </div>
-      </div>
-
-      {user.isLoggedIn ? (
-        <BodySectionWithMarginBottom title="Course list">
-          <CourseList courses={courses} />
-        </BodySectionWithMarginBottom>
-      ) : (
         <BodySectionWithMarginBottom title="Log in to continue">
-          <Login logIn={logIn} email={user.email} password={user.password} />
+          <Login logIn={logIn} />
         </BodySectionWithMarginBottom>
-      )}
-
-      <BodySection title="News from the School">
-        <p>Holberton School News goes here</p>
-      </BodySection>
-
-      <Footer />
-    </NewContext.Provider>
+        <BodySection title="News from the School">
+          <p>Some random text</p>
+        </BodySection>
+        {user.isLoggedIn ? (
+          <BodySectionWithMarginBottom title="Course list">
+            <CourseList listCourses={courses} />
+          </BodySectionWithMarginBottom>
+        ) : (
+          <BodySectionWithMarginBottom title="Log in to continue">
+            <Login logIn={logIn} />
+          </BodySectionWithMarginBottom>
+        )}
+        <Footer />
+      </div>
+    </React.Fragment>
   );
 }
 
